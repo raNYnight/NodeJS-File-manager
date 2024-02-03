@@ -1,10 +1,13 @@
 import { createInterface } from "readline";
+import printCurrentWorkingDirectory from "./modules/current-working-directory.js";
 
 const args = process.argv.slice(2);
 const usernameArg = args.find((arg) => arg.startsWith("--username="));
 const username = usernameArg ? usernameArg.split("=")[1] : "User";
 
 console.log(`Welcome to the File Manager, ${username}!`);
+
+await printCurrentWorkingDirectory();
 
 const rl = createInterface({
   input: process.stdin,
