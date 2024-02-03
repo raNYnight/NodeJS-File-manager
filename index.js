@@ -1,5 +1,8 @@
 import { createInterface } from "readline";
-import printCurrentWorkingDirectory from "./modules/current-working-directory.js";
+import printCurrentWorkingDirectory from "./modules/navigation/current-working-directory.js";
+import navigateUp from "./modules/navigation/navigate-up.js";
+import navigateToDirectory from "./modules/navigation/navigate-to-directory.js";
+import listDirectoryContents from "./modules/navigation/list-directory-contents.js";
 
 const args = process.argv.slice(2);
 const usernameArg = args.find((arg) => arg.startsWith("--username="));
@@ -16,18 +19,18 @@ const rl = createInterface({
 });
 
 rl.prompt();
-rl.on("line", (line) => {
+rl.on("line", async (line) => {
   const [command, ...args] = line.trim().split(" ");
 
   switch (command) {
     case "up":
-      navigateUp();
+      await navigateUp();
       break;
     case "cd":
-      navigateToDirectory(args[0]);
+      await navigateToDirectory(args.join(" "));
       break;
     case "ls":
-      listDirectoryContents();
+      await listDirectoryContents();
       break;
     case "cat":
       readFile(args[0]);
