@@ -1,8 +1,12 @@
 import { createInterface } from "readline";
-import printCurrentWorkingDirectory from "./modules/navigation/current-working-directory.js";
-import navigateUp from "./modules/navigation/navigate-up.js";
-import navigateToDirectory from "./modules/navigation/navigate-to-directory.js";
-import listDirectoryContents from "./modules/navigation/list-directory-contents.js";
+import { printCurrentWorkingDirectory } from "./modules/navigation/current-working-directory.js";
+import { navigateUp } from "./modules/navigation/navigate-up.js";
+import { navigateToDirectory } from "./modules/navigation/navigate-to-directory.js";
+import { listDirectoryContents } from "./modules/navigation/list-directory-contents.js";
+import { readFile } from "./modules/basic/read-file.js";
+import { createFile } from "./modules/basic/create-file.js";
+import { renameFile } from "./modules/basic/rename-file.js";
+import { handleArguments } from "./modules/utils/handle-arguments.js";
 
 const args = process.argv.slice(2);
 const usernameArg = args.find((arg) => arg.startsWith("--username="));
@@ -21,7 +25,8 @@ const rl = createInterface({
 rl.prompt();
 rl.on("line", async (line) => {
   const [command, ...args] = line.trim().split(" ");
-
+  console.log("args", args);
+  console.log("line", line);
   switch (command) {
     case "up":
       await navigateUp();
@@ -33,13 +38,21 @@ rl.on("line", async (line) => {
       await listDirectoryContents();
       break;
     case "cat":
-      readFile(args[0]);
+      await readFile(args.join(" "))
+        .then(() => {
+          console.log("File content printed successfully");
+        })
+        .catch((error) => {
+          console.error(`Error occurred: ${error}`);
+        });
       break;
     case "add":
-      createFile(args[0]);
+      await createFile(args.join(" "));
       break;
     case "rn":
-      renameFile(args[0], args[1]);
+      const handledArguments = handleArguments(line.split(" ").slice(1).join(" "));
+      console.log("handledArguments", handledArguments);
+      await renameFile(handledArguments[0], handledArguments[1]);
       break;
     case "cp":
       copyFile(args[0], args[1]);
@@ -75,6 +88,6 @@ rl.on("line", async (line) => {
 });
 
 function exitProgram() {
-  console.log("Exiting File Manager...");
+  console.log(`Thank you for using File Manager, ${username}, goodbye!`);
   rl.close();
 }

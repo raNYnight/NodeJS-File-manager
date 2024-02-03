@@ -1,9 +1,9 @@
-import printCurrentWorkingDirectory from "./current-working-directory.js";
+import { printCurrentWorkingDirectory } from "./current-working-directory.js";
 import { lstat } from "fs/promises";
 import { resolve } from "path";
 import fs from "fs";
 
-async function navigateToDirectory(directory) {
+export async function navigateToDirectory(directory) {
   try {
     const currentDirectory = await fs.promises.realpath(".");
     const targetDirectory = resolve(currentDirectory, directory);
@@ -23,4 +23,3 @@ async function navigateToDirectory(directory) {
     console.error(`Error occurred: ${error}`);
   }
 }
-export default navigateToDirectory;

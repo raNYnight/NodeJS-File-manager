@@ -1,7 +1,8 @@
 import { dirname } from "path";
-import printCurrentWorkingDirectory from "./current-working-directory.js";
+import { printCurrentWorkingDirectory } from "./current-working-directory.js";
 import fs from "fs";
-async function navigateUp() {
+
+export async function navigateUp() {
   try {
     const currentDirectory = await fs.promises.realpath(".");
     const parentDirectory = dirname(currentDirectory);
@@ -16,5 +17,3 @@ async function navigateUp() {
     console.error(`Error occurred: ${error}`);
   }
 }
-
-export default navigateUp;

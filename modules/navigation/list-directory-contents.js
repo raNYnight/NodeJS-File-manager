@@ -1,8 +1,10 @@
 import fs from "fs";
 import path from "path";
-async function listDirectoryContents() {
-  const currentDirectory = await fs.promises.realpath(".");
+import { printCurrentWorkingDirectory } from "./current-working-directory.js";
 
+export async function listDirectoryContents() {
+  const currentDirectory = await fs.promises.realpath(".");
+  await printCurrentWorkingDirectory();
   try {
     const files = await fs.promises.readdir(currentDirectory);
 
@@ -41,5 +43,3 @@ async function listDirectoryContents() {
     console.error(error);
   }
 }
-
-export default listDirectoryContents;
