@@ -1,6 +1,7 @@
 import fs from "fs";
 import path from "path";
 import { printCurrentWorkingDirectory } from "./current-working-directory.js";
+import logger from "../utils/custom-logger.js";
 
 export async function listDirectoryContents() {
   const currentDirectory = await fs.promises.realpath(".");
@@ -39,7 +40,7 @@ export async function listDirectoryContents() {
 
     console.table(table, ["Filename", "Type"]);
   } catch (error) {
-    console.error("Error listing directory contents:");
-    console.error(error);
+    logger.error("Error listing directory contents:", "red");
+    logger.error(error, "white");
   }
 }

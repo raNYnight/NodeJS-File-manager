@@ -1,10 +1,11 @@
 import fs from "fs";
+import logger from "../utils/custom-logger.js";
 
 export async function printCurrentWorkingDirectory() {
   try {
     const cwd = await fs.promises.realpath(".");
-    console.log(`You are currently in ${cwd}`);
+    logger.log(`You are currently in ${cwd}`, "yellow");
   } catch (error) {
-    console.error(`Error occurred: ${error}`);
+    logger.error(`Error occurred: ${error}`, "red");
   }
 }

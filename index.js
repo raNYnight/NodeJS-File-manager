@@ -1,4 +1,5 @@
 import { createInterface } from "readline";
+import logger from "./modules/utils/custom-logger.js";
 import { printCurrentWorkingDirectory } from "./modules/navigation/current-working-directory.js";
 import { navigateUp } from "./modules/navigation/navigate-up.js";
 import { navigateToDirectory } from "./modules/navigation/navigate-to-directory.js";
@@ -6,13 +7,16 @@ import { listDirectoryContents } from "./modules/navigation/list-directory-conte
 import { readFile } from "./modules/basic/read-file.js";
 import { createFile } from "./modules/basic/create-file.js";
 import { renameFile } from "./modules/basic/rename-file.js";
+import { copyFile } from "./modules/basic/copy-file.js";
 import { handleArguments } from "./modules/utils/handle-arguments.js";
+import { moveFile } from "./modules/basic/move-file.js";
+import { deleteFile } from "./modules/basic/delete-file.js";
 
 const args = process.argv.slice(2);
 const usernameArg = args.find((arg) => arg.startsWith("--username="));
 const username = usernameArg ? usernameArg.split("=")[1] : "User";
 
-console.log(`Welcome to the File Manager, ${username}!`);
+logger.log(`Welcome to the File Manager, ${username}!`, "cyan");
 
 await printCurrentWorkingDirectory();
 
@@ -25,8 +29,9 @@ const rl = createInterface({
 rl.prompt();
 rl.on("line", async (line) => {
   const [command, ...args] = line.trim().split(" ");
-  console.log("args", args);
-  console.log("line", line);
+  const argsLine = line.trim().split(" ").slice(1).join(" ");
+  const handledArguments = handleArguments(argsLine);
+  logger.log(`Command: ${command}, Arguments: ${handledArguments}`, "yellow");
   switch (command) {
     case "up":
       await navigateUp();
@@ -40,22 +45,20 @@ rl.on("line", async (line) => {
     case "cat":
       await readFile(args.join(" "))
         .then(() => {
-          console.log("File content printed successfully");
+          logger.log("File content printed successfully", "green");
         })
         .catch((error) => {
-          console.error(`Error occurred: ${error}`);
+          logger.error(`\x1b[31mAn Error occurred: ${error} \x1b[0m`, "red");
         });
       break;
     case "add":
       await createFile(args.join(" "));
       break;
     case "rn":
-      const handledArguments = handleArguments(line.split(" ").slice(1).join(" "));
-      console.log("handledArguments", handledArguments);
       await renameFile(handledArguments[0], handledArguments[1]);
       break;
     case "cp":
-      copyFile(args[0], args[1]);
+      await copyFile(handledArguments[0], handledArguments[1]);
       break;
     case "mv":
       moveFile(args[0], args[1]);
@@ -79,7 +82,7 @@ rl.on("line", async (line) => {
       exitProgram();
       break;
     default:
-      console.log("Invalid input");
+      logger.log("Invalid input", "red");
   }
 
   rl.prompt();
@@ -88,6 +91,6 @@ rl.on("line", async (line) => {
 });
 
 function exitProgram() {
-  console.log(`Thank you for using File Manager, ${username}, goodbye!`);
+  logger.log(`Thank you for using File Manager, ${username}, goodbye!`, "cyan");
   rl.close();
 }

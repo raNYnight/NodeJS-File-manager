@@ -1,6 +1,7 @@
 import { dirname } from "path";
 import { printCurrentWorkingDirectory } from "./current-working-directory.js";
 import fs from "fs";
+import logger from "../utils/custom-logger.js";
 
 export async function navigateUp() {
   try {
@@ -8,12 +9,12 @@ export async function navigateUp() {
     const parentDirectory = dirname(currentDirectory);
 
     if (currentDirectory === parentDirectory) {
-      console.log("Cannot go higher than the root directory");
+      logger.log("Cannot go higher than the root directory", "red");
     } else {
       process.chdir(parentDirectory);
       await printCurrentWorkingDirectory();
     }
   } catch (error) {
-    console.error(`Error occurred: ${error}`);
+    logger.error(`Error occurred: ${error}`, "red");
   }
 }
