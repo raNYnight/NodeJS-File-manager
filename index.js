@@ -11,6 +11,10 @@ import { copyFile } from "./modules/basic/copy-file.js";
 import { handleArguments } from "./modules/utils/handle-arguments.js";
 import { moveFile } from "./modules/basic/move-file.js";
 import { deleteFile } from "./modules/basic/delete-file.js";
+import { handleOSInfo } from "./modules/operating-system/handle-os-info.js";
+import { printFileHash } from "./modules/hash-calculation/print-file-hash.js";
+import { compressFile } from "./modules/compress-decompress/compress-file.js";
+import { decompressFile } from "./modules/compress-decompress/decompress-file.js";
 
 const args = process.argv.slice(2);
 const usernameArg = args.find((arg) => arg.startsWith("--username="));
@@ -61,22 +65,22 @@ rl.on("line", async (line) => {
       await copyFile(handledArguments[0], handledArguments[1]);
       break;
     case "mv":
-      moveFile(args[0], args[1]);
+      await moveFile(handledArguments[0], handledArguments[1]);
       break;
     case "rm":
-      deleteFile(args[0]);
+      await deleteFile(handledArguments[0]);
       break;
     case "os":
-      handleOSInfo(args);
+      await handleOSInfo(args);
       break;
     case "hash":
-      calculateFileHash(args[0]);
+      await printFileHash(handledArguments[0]);
       break;
     case "compress":
-      compressFile(args[0], args[1]);
+      compressFile(handledArguments[0], handledArguments[1]);
       break;
     case "decompress":
-      decompressFile(args[0], args[1]);
+      decompressFile(handledArguments[0], handledArguments[1]);
       break;
     case ".exit":
       exitProgram();

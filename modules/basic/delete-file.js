@@ -9,5 +9,9 @@ export async function deleteFile(filePath) {
   } catch (error) {
     logger.error("An error occurred:", "red");
     logger.error(error, "red");
+    logger.log(
+      "If you are trying to delete a file that have a space in its name or path, please use quotes.",
+      "red"
+    );
   }
 }
