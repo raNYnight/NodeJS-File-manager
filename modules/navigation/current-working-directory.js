@@ -6,6 +6,6 @@ export async function printCurrentWorkingDirectory() {
     const cwd = await fs.promises.realpath(".");
     logger.log(`You are currently in ${cwd}`, "yellow");
   } catch (error) {
-    logger.error(`Error occurred: ${error}`, "red");
+    logger.error(`Operation failed:  ${error}`, "red");
   }
 }

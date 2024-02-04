@@ -31,7 +31,7 @@ export async function handleOSInfo(args) {
         logger.log("Invalid OS command", "green");
     }
   } catch (error) {
-    logger.error("An error occurred:", "red");
+    logger.error("An Operation failed: ", "red");
     logger.error(error, "red");
   }
 }

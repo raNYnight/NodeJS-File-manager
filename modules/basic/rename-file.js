@@ -10,7 +10,7 @@ export async function renameFile(filePath, newFileName) {
     await fsPromises.rename(filePath, newFilePath);
     logger.log(`File '${filePath}' renamed to '${newFilePath}' successfully.`, "green");
   } catch (error) {
-    logger.error(`Error occurred: ${error}`, "red");
+    logger.error(`Operation failed:  ${error}`, "red");
     logger.log(
       "If you are trying to rename a file that have a space in its name or path, please use quotes.",
       "red"

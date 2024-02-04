@@ -10,7 +10,7 @@ export async function copyFile(sourcePath, destinationPath) {
     await fs.copyFile(sourcePath, destinationFilePath);
     logger.log("File copied successfully!", "green");
   } catch (error) {
-    logger.error("An error occurred:", "red");
+    logger.error("An Operation failed: ", "red");
     logger.error(error.message, "red");
     logger.log(
       "If you are trying to copy a file that have a spaces in its name or path, please use quotes.",

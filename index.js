@@ -52,7 +52,7 @@ rl.on("line", async (line) => {
           logger.log("File content printed successfully", "green");
         })
         .catch((error) => {
-          logger.error(`\x1b[31mAn Error occurred: ${error} \x1b[0m`, "red");
+          logger.error(`Operation failed:  ${error}`, "red");
         });
       break;
     case "add":

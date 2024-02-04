@@ -15,6 +15,6 @@ export async function navigateUp() {
       await printCurrentWorkingDirectory();
     }
   } catch (error) {
-    logger.error(`Error occurred: ${error}`, "red");
+    logger.error(`Operation failed:  ${error}`, "red");
   }
 }

@@ -6,6 +6,6 @@ export async function createFile(fileName) {
     await fsPromises.writeFile(fileName, "");
     logger.log(`File '${fileName}' created successfully.`, "green");
   } catch (error) {
-    logger.error(`Error occurred: ${error}`, "red");
+    logger.error(`Operation failed:  ${error}`, "red");
   }
 }
