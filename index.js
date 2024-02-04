@@ -13,8 +13,8 @@ import { moveFile } from "./modules/basic/move-file.js";
 import { deleteFile } from "./modules/basic/delete-file.js";
 import { handleOSInfo } from "./modules/operating-system/handle-os-info.js";
 import { printFileHash } from "./modules/hash-calculation/print-file-hash.js";
-import { compressFile } from "./modules/compress-decompress/compress-file.js";
-import { decompressFile } from "./modules/compress-decompress/decompress-file.js";
+import { compressFile } from "./modules/compression/compress-file.js";
+import { decompressFile } from "./modules/compression/decompress-file.js";
 
 const args = process.argv.slice(2);
 const usernameArg = args.find((arg) => arg.startsWith("--username="));
